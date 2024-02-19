@@ -22,7 +22,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {}
+    "paths": {
+      "@components/*": [
+        "components/*"
+      ],
+    }
   },
   "include": [
     "src"
