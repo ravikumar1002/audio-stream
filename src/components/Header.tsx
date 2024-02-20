@@ -1,4 +1,4 @@
-import { uploadMusic } from "@utils/uploadMusic";
+import { uploadAudios } from "@utils/uploadAudios";
 
 export const Header = () => {
   return (
@@ -39,10 +39,10 @@ export const Header = () => {
               id="upload-mp3"
               className="hidden"
               accept=".mp3,audio/*"
-              onChange={(e) => {
+              onChange={async (e) => {
                 console.log(e.target.files, "files");
                 if (e.target.files && e.target.files.length > 0) {
-                  uploadMusic(e.target.files);
+                  await uploadAudios(e.target.files);
                 }
               }}
             />
