@@ -1,5 +1,5 @@
+import IndexDB_KEYS from "@constants/indexDbKeys";
 import { db } from "App";
-import IndexDB_KEYS from "constants/indexDbKeys";
 
 export const updateIndexDBData = (keys: string[], data) => {
   const dbPromise = db.open(IndexDB_KEYS.USER_DB, 2);

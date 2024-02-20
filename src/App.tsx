@@ -1,12 +1,11 @@
-import { HomePage } from "pages/HomePage";
 import "./App.css";
-import { PageLayout } from "./components/PageLayout";
-import { useSaveDataBeforeReload } from "hooks/useSaveDataBeforeReload";
 import { useEffect, useLayoutEffect } from "react";
-import { useAppStore } from "store/store";
-import IndexDB_KEYS from "constants/indexDbKeys";
 import { getIndexDBKeyAllData } from "@utils/getIndexDBData";
 import { filterValueFromAudio } from "@utils/filterValueFromAudio";
+import { HomePage } from "@pages/HomePage";
+import IndexDB_KEYS from "@constants/indexDbKeys";
+import { PageLayout } from "@components/PageLayout";
+import { useAppStore } from "@store/store";
 
 export const db = window.indexedDB;
 
@@ -40,8 +39,8 @@ const insertDataInIndexedDb = async () => {
 };
 
 function App() {
+  const { setPlaylistSongs } = useAppStore();
   useLayoutEffect(() => {
-    console.log("A");
     (async () => {
       await insertDataInIndexedDb();
       const queueList = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST_QUEUE);
@@ -49,14 +48,13 @@ function App() {
       console.log(queueList);
       if (queueList.length > 0) {
         const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
-        console.log(filterAudioData);
+        console.log(filterAudioData, "dd");
+        if (filterAudioData) {
+          setPlaylistSongs(filterAudioData);
+        }
       }
     })();
   }, []);
-
-  // useEffect(() => {
-  //   insertDataInIndexedDb();
-  // }, []);
 
   return (
     <PageLayout>

@@ -1,15 +1,22 @@
 import { create } from "zustand";
 
+export interface IPlaylistSong {
+  _id: string;
+  name: string;
+  size: number | string;
+}
+
 interface IStore {
   audioLevel: number;
   isAudioMuted: boolean;
   currentTrack: number;
   playingsongId: string | null;
-  playlistSongs: [];
+  playlistSongs: IPlaylistSong[];
   setAudioLevel: (audioLevel: number) => void;
   setIsAudioMuted: (isAudioMuted: boolean) => void;
   setCurrentTrack: (currentTrack: number) => void;
   setPlayingSongId: (playingsongId: string | null) => void;
+  setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => void;
 }
 
 export const useAppStore = create<IStore>()((set) => ({
@@ -22,4 +29,5 @@ export const useAppStore = create<IStore>()((set) => ({
   setIsAudioMuted: (isAudioMuted: boolean) => set({ isAudioMuted }),
   setCurrentTrack: (currentTrack: number) => set({ currentTrack }),
   setPlayingSongId: (playingsongId: string | null) => set({ playingsongId }),
+  setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => set({ playlistSongs }),
 }));

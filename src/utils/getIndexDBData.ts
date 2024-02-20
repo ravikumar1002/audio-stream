@@ -1,5 +1,5 @@
+import IndexDB_KEYS from "@constants/indexDbKeys";
 import { db } from "App";
-import IndexDB_KEYS from "constants/indexDbKeys";
 
 export const getIndexDBKeyAllData = (key: string) =>
   new Promise((resolve, reject) => {

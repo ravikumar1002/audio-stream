@@ -1,4 +1,4 @@
-import IndexDB_KEYS from "constants/indexDbKeys";
+import IndexDB_KEYS from "@constants/indexDbKeys";
 import { getIndexDBKeyAllData, getIndividualIndexDBData } from "./getIndexDBData";
 
 // export const filterValueFromAudio = async (queueList) =>
@@ -19,7 +19,7 @@ export const filterValueFromAudio = async (queueList) => {
         const data = await getIndividualIndexDBData(IndexDB_KEYS.PLAYLIST, item);
         const rePatternData = {
           _id: data._id,
-          name: data.name,
+          name: data.name.split(".mp")[0],
           size: data.size,
         };
         filterValue.push(rePatternData);

@@ -23,11 +23,26 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "@assets/*": [
+        "assets/*"
+      ],
       "@components/*": [
         "components/*"
       ],
       "@utils/*": [
         "utils/*"
+      ],
+      "@constants/*": [
+        "constants/*"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@store/*": [
+        "store/*"
       ],
     }
   },

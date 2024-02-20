@@ -1,7 +1,7 @@
-import IndexDB_KEYS from "constants/indexDbKeys";
 import { v4 as uuidv4 } from "uuid";
 import { updateIndexDBData } from "./updateIndexDBData";
 import { getIndexDBKeyAllData } from "./getIndexDBData";
+import IndexDB_KEYS from "@constants/indexDbKeys";
 
 // const getDuration = (file) => {
 //   let duration;
