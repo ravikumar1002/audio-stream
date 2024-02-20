@@ -1,3 +1,4 @@
+import { AudioPlayer } from "./AudioPlayer";
 import { Header } from "./Header";
 import "./page-layout.css";
 interface IPageLayout {
@@ -15,7 +16,9 @@ export const PageLayout = (props: IPageLayout) => {
       <main className="row-span-8 sm:row-span-9">
         <div className="grid h-full grid-rows-8">
           <div className="mx-auto w-full max-w-5xl p-6 lg:px-8 row-span-7">{children}</div>
-          <div className="">Active song card</div>
+          <div className="h-full">
+            <AudioPlayer title="name" />
+          </div>
         </div>
       </main>
     </div>

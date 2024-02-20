@@ -1,10 +1,64 @@
 import "./App.css";
-import { PageLayout } from "./components/PageLayout";
+import { useEffect, useLayoutEffect } from "react";
+import { getIndexDBKeyAllData } from "@utils/getIndexDBData";
+import { filterValueFromAudio } from "@utils/filterValueFromAudio";
+import { HomePage } from "@pages/HomePage";
+import IndexDB_KEYS from "@constants/indexDbKeys";
+import { PageLayout } from "@components/PageLayout";
+import { useAppStore } from "@store/store";
+
+export const db = window.indexedDB;
+
+const insertDataInIndexedDb = async () => {
+  if (!db) {
+    console.log("This browser doesn't support IndexedDB");
+    return;
+  }
+
+  const request = db.open(IndexDB_KEYS.USER_DB, 2);
+
+  request.onerror = function (event) {
+    console.error("An error occurred with IndexedDB");
+    console.error(event);
+  };
+
+  request.onupgradeneeded = function (event) {
+    console.log(event);
+    const db = request.result;
+    if (!db.objectStoreNames.contains(IndexDB_KEYS.PLAYLIST)) {
+      db.createObjectStore(IndexDB_KEYS.PLAYLIST, { keyPath: "_id" });
+    }
+    if (!db.objectStoreNames.contains(IndexDB_KEYS.PLAYLIST_QUEUE)) {
+      db.createObjectStore(IndexDB_KEYS.PLAYLIST_QUEUE, { keyPath: "queue" });
+    }
+  };
+
+  request.onsuccess = function () {
+    console.log("Database opened successfully");
+  };
+};
 
 function App() {
+  const { setPlaylistSongs } = useAppStore();
+  useLayoutEffect(() => {
+    (async () => {
+      await insertDataInIndexedDb();
+      const queueList = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST_QUEUE);
+      // const playlist = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST);
+      console.log(queueList);
+      if (queueList.length > 0) {
+        const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
+        console.log(filterAudioData, "dd");
+        if (filterAudioData) {
+          setPlaylistSongs(filterAudioData);
+        }
+      }
+    })();
+  }, []);
+
   return (
     <PageLayout>
-      <h1 className="text-3xl font-bold">Hello world!</h1>
+      <HomePage />
     </PageLayout>
   );
 }
