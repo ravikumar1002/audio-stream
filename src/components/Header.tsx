@@ -1,29 +1,33 @@
 import { uploadAudios } from "@utils/uploadAudios";
 
 export const Header = () => {
+  const handleFileUpload = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      await uploadAudios(e.target.files);
+    }
+  };
+
   return (
     <div>
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex items-center justify-between p-6 lg:px-8 max-w-7xl"
         aria-label="Global"
       >
-        <div>
-          <div className="-m-1.5 p-1.5 flex items-center gap-1">
-            <img
-              className="h-8 w-auto"
-              src="https://static.vecteezy.com/system/resources/previews/026/991/817/original/3d-streaming-music-online-icon-for-ui-ux-web-mobile-apps-social-media-ads-design-free-png.png"
-              alt="Audio Stream"
-            />
-            <span>Audio Stream</span>
-          </div>
+        <div className="-m-1.5 p-1.5 flex items-center gap-2">
+          <img
+            className="h-8 w-auto"
+            src="https://static.vecteezy.com/system/resources/previews/026/991/817/original/3d-streaming-music-online-icon-for-ui-ux-web-mobile-apps-social-media-ads-design-free-png.png"
+            alt="Audio Stream"
+          />
+          <span className="text-xl font-semibold">Audio Stream</span>
         </div>
 
         <div>
           <label
-            id="upload-mp3"
-            className="flex items-center gap-2 text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+            htmlFor="upload-mp3"
+            className="flex items-center gap-2 text-sm font-semibold text-gray-900 cursor-pointer"
           >
-            <span className="text-base leading-normal">Upload songs</span>
+            <span>Upload songs</span>
             <svg
               className="w-6 h-6"
               fill="currentColor"
@@ -34,22 +38,15 @@ export const Header = () => {
             </svg>
             <input
               type="file"
-              name=""
-              multiple={true}
               id="upload-mp3"
               className="hidden"
+              multiple
               accept=".mp3,audio/*"
-              onChange={async (e) => {
-                console.log(e.target.files, "files");
-                if (e.target.files && e.target.files.length > 0) {
-                  await uploadAudios(e.target.files);
-                }
-              }}
+              onChange={handleFileUpload}
             />
           </label>
         </div>
       </nav>
-      {/* {value && <audio src={URL.createObjectURL(value)} controls={true} />} */}
     </div>
   );
 };
