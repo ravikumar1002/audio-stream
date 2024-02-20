@@ -6,10 +6,11 @@ import { useEffect, useLayoutEffect } from "react";
 import { useAppStore } from "store/store";
 import IndexDB_KEYS from "constants/indexDbKeys";
 import { getIndexDBKeyAllData } from "@utils/getIndexDBData";
+import { filterValueFromAudio } from "@utils/filterValueFromAudio";
 
 export const db = window.indexedDB;
 
-const insertDataInIndexedDb = () => {
+const insertDataInIndexedDb = async () => {
   if (!db) {
     console.log("This browser doesn't support IndexedDB");
     return;
@@ -39,14 +40,23 @@ const insertDataInIndexedDb = () => {
 };
 
 function App() {
-  // useSaveDataBeforeReload();
-  // const {} = useAppStore();
-  // useLayoutEffect(() => {}, []);
-
-  useEffect(() => {
-    insertDataInIndexedDb();
-    // console.log(getIndexDBData(IndexDB_KEYS.PLAYLIST));
+  useLayoutEffect(() => {
+    console.log("A");
+    (async () => {
+      await insertDataInIndexedDb();
+      const queueList = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST_QUEUE);
+      // const playlist = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST);
+      console.log(queueList);
+      if (queueList.length > 0) {
+        const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
+        console.log(filterAudioData);
+      }
+    })();
   }, []);
+
+  // useEffect(() => {
+  //   insertDataInIndexedDb();
+  // }, []);
 
   return (
     <PageLayout>
