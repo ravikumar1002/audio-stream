@@ -3,49 +3,71 @@ import { updateIndexDBData } from "./updateIndexDBData";
 import { getIndexDBKeyAllData } from "./getIndexDBData";
 import IndexDB_KEYS from "@constants/indexDbKeys";
 
-// const getDuration = (file) => {
-//   let duration;
-//   const reader = new FileReader();
-//   reader.onload = function (event) {
-//     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-//     audioContext.decodeAudioData(event.target.result, function (buffer) {
-//       duration = buffer.duration;
-//     });
-//   };
+const getDuration = (file: File): Promise<number> => {
+  return new Promise<number>((resolve, reject) => {
+    const reader = new FileReader();
 
-//   reader.onerror = function (event) {
-//     console.error("An error ocurred reading the file: ", event);
-//   };
+    reader.onload = (event) => {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      audioContext.decodeAudioData(event.target!.result as ArrayBuffer, (buffer) => {
+        resolve(buffer.duration);
+      });
+    };
 
-//   reader.readAsArrayBuffer(file);
-//   return duration;
-// };
+    reader.onerror = (event) => {
+      console.error("An error ocurred reading the file: ", event);
+      reject(event.error);
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+};
+
+const storeFiles = async (fileList) => {
+  const transaction = database.transaction("audioFiles", "readwrite");
+  const objectStore = transaction.objectStore("audioFiles");
+  console.log(fileList);
+  for (let i = 0; i < fileList.length; i++) {
+    const file = fileList[i];
+    if (file.type === "audio/mpeg") {
+      await new Promise((resolve, reject) => {
+        const request = objectStore.add(file);
+        request.onsuccess = resolve;
+        request.onerror = reject;
+      });
+    }
+  }
+};
 
 export const uploadAudios = async (selectedAudios: FileList) => {
-  for (const file of selectedAudios) {
+  for (let i = 0; i < selectedAudios.length; i++) {
+    const file = selectedAudios[i];
     const { name, type, size } = file;
-    const fileURL = URL.createObjectURL(file);
     const _id = uuidv4();
+    const duration = await getDuration(file);
+    const fileUrl = new Blob([selectedAudios[i]], { type: "audio/mpeg" });
+
     const fileInfo = {
       _id,
       name,
       type,
       size,
-      fileURL,
+      fileUrl,
+      duration: Math.round(duration),
     };
-
-    const queueList = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST_QUEUE);
-    console.log(queueList);
-    const queueListMerge = queueList.length > 0 ? [...queueList[0].queueList, _id] : [_id];
-    updateIndexDBData(
-      [IndexDB_KEYS.PLAYLIST, IndexDB_KEYS.PLAYLIST_QUEUE],
-      [
-        fileInfo,
-        {
-          queue: "queue",
-          queueList: queueListMerge,
-        },
-      ],
-    );
+    if (file.type === "audio/mpeg") {
+      const queueList = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST_QUEUE);
+      const queueListMerge = queueList.length > 0 ? [...queueList[0].queueList, _id] : [_id];
+      updateIndexDBData(
+        [IndexDB_KEYS.PLAYLIST, IndexDB_KEYS.PLAYLIST_QUEUE],
+        [
+          fileInfo,
+          {
+            queue: "queue",
+            queueList: queueListMerge,
+          },
+        ],
+      );
+    }
   }
 };

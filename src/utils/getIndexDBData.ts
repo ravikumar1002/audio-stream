@@ -13,7 +13,6 @@ export const getIndexDBKeyAllData = (key: string) =>
       const users = userData.getAll();
 
       users.onsuccess = (e) => {
-        console.log(e.target.result);
         dbValue = [...e.target?.result];
       };
 
@@ -32,7 +31,7 @@ export const getIndividualIndexDBData = (key: string, uniqueID: string) =>
     const dbPromise = db.open(IndexDB_KEYS.USER_DB, 2);
     dbPromise.onsuccess = () => {
       const dbResult = dbPromise.result;
-
+      console.log(key, uniqueID, "get");
       const tx = dbResult.transaction(key, "readonly");
       const userData = tx.objectStore(key);
       const users = userData.get(uniqueID);

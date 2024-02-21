@@ -21,6 +21,7 @@ export const filterValueFromAudio = async (queueList) => {
           _id: data._id,
           name: data.name.split(".mp")[0],
           size: data.size,
+          duration: data.duration,
         };
         filterValue.push(rePatternData);
       }

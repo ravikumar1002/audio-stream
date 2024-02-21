@@ -6,6 +6,7 @@ import { HomePage } from "@pages/HomePage";
 import IndexDB_KEYS from "@constants/indexDbKeys";
 import { PageLayout } from "@components/PageLayout";
 import { useAppStore } from "@store/store";
+import { useSaveDataBeforeReload } from "@hooks/useSaveDataBeforeReload";
 
 export const db = window.indexedDB;
 
@@ -23,7 +24,6 @@ const insertDataInIndexedDb = async () => {
   };
 
   request.onupgradeneeded = function (event) {
-    console.log(event);
     const db = request.result;
     if (!db.objectStoreNames.contains(IndexDB_KEYS.PLAYLIST)) {
       db.createObjectStore(IndexDB_KEYS.PLAYLIST, { keyPath: "_id" });
@@ -39,20 +39,48 @@ const insertDataInIndexedDb = async () => {
 };
 
 function App() {
-  const { setPlaylistSongs } = useAppStore();
+  const {
+    setVolume,
+    setIsAudioMuted,
+    setDuration,
+    setPlayingSongId,
+    setPlaylistSongs,
+    setCurrentlyPlaying,
+    setCurrrentProgress,
+    setBuffered,
+  } = useAppStore();
+
+  // useSaveDataBeforeReload();
+
   useLayoutEffect(() => {
     (async () => {
       await insertDataInIndexedDb();
       const queueList = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST_QUEUE);
-      // const playlist = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST);
-      console.log(queueList);
       if (queueList.length > 0) {
         const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
-        console.log(filterAudioData, "dd");
         if (filterAudioData) {
           setPlaylistSongs(filterAudioData);
         }
       }
+      // const localStorageSavedData = JSON.parse(localStorage.getItem("appData"));
+      // if (localStorageSavedData) {
+      //   const {
+      //     volume,
+      //     duration,
+      //     isAudioMuted,
+      //     currrentProgress,
+      //     playingsongId,
+      //     currentlyPlaying,
+      //     buffered,
+      //   } = localStorageSavedData;
+      //   setVolume(volume);
+      //   setIsAudioMuted(isAudioMuted);
+      //   setDuration(duration);
+      //   setPlayingSongId(playingsongId);
+      //   setCurrentlyPlaying(currentlyPlaying);
+      //   setCurrrentProgress(currrentProgress);
+      //   setBuffered(buffered);
+      // }
     })();
   }, []);
 
