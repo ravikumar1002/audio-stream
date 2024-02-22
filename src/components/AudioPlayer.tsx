@@ -25,8 +25,6 @@ export const AudioPlayer = () => {
     setVolume,
   } = useAppStore();
 
-  const [isReady, setIsReady] = useState(false);
-
   const {
     isPlaying,
     nextTrackHandler,
@@ -47,13 +45,6 @@ export const AudioPlayer = () => {
     setAudioCurrentTime();
   }, []);
 
-  // useEffect(() => {
-  //   // Check if audioRef.current and currrentProgress are both valid
-  //   if (audioRef.current && currrentProgress !== 0) {
-  //     audioRef.current.currentTime = currrentProgress;
-  //   }
-  // }, []);
-
   return (
     <div className="h-full relative bg-gray-200 ">
       <div className="flex justify-between py-3 px-6 max-w-7xl mx-auto h-full items-center">
@@ -68,11 +59,7 @@ export const AudioPlayer = () => {
             onEnded={nextTrackHandler}
             onCanPlay={(e) => {
               e.currentTarget.volume = volume;
-              setIsReady(true);
             }}
-            // onChange={() => {
-            //   setAudioCurrentTime();
-            // }}
             onTimeUpdate={(e) => {
               setCurrrentProgress(e.currentTarget.currentTime);
             }}

@@ -8,7 +8,7 @@ import { db } from "App";
 interface IPlaylistSongCard {
   _id: string;
   name: string;
-  size: number;
+  size: number | string;
   duration: number;
 }
 
@@ -34,7 +34,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCard }) => {
       const queueList = queue.objectStore(IndexDB_KEYS.PLAYLIST_QUEUE);
       const deleteUserQueue = queueList.delete(_id);
 
-      deleteUserQueue.onsuccess = (query) => {
+      deleteUserQueue.onsuccess = () => {
         (async () => {
           const prevQueueList = await getIndexDBKeyAllData<IQueueIndexDBData>(
             IndexDB_KEYS.PLAYLIST_QUEUE,

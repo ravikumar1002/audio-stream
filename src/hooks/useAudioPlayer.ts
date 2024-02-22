@@ -7,11 +7,9 @@ import { useEffect, useRef, useState } from "react";
 export const useAudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const { playingsongId, setPlayingSongId, playlistSongs, setCurrentlyPlaying, currrentProgress } =
-    useAppStore();
+  const { playingsongId, setPlayingSongId, playlistSongs, setCurrentlyPlaying } = useAppStore();
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  // const [progress, setProgress] = useState<number>(10);
 
   useEffect(() => {
     (async () => {
@@ -73,7 +71,6 @@ export const useAudioPlayer = () => {
 
   return {
     isPlaying,
-    // progress,
     nextTrackHandler,
     prevTrackHandler,
     playPauseHandler,

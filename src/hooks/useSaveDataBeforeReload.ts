@@ -1,4 +1,4 @@
-import { ICurrentlyPlaying, IPlaylistSong, useAppStore } from "@store/store";
+import { useAppStore } from "@store/store";
 
 interface ISaveDAtaToLocalStroge {
   volume: number;
@@ -6,25 +6,22 @@ interface ISaveDAtaToLocalStroge {
   currrentProgress: number;
   isAudioMuted: boolean;
   playingsongId: string | null;
-  buffered: number;
 }
 
 export const useSaveDataBeforeReload = () => {
-  const { volume, duration, isAudioMuted, currrentProgress, playingsongId, buffered } =
-    useAppStore();
+  const { volume, duration, isAudioMuted, currrentProgress, playingsongId } = useAppStore();
 
   function saveDataToLocalStorage(data: ISaveDAtaToLocalStroge) {
     localStorage.setItem("appData", JSON.stringify(data));
   }
 
-  window.addEventListener("beforeunload", function (event) {
+  window.addEventListener("beforeunload", function () {
     const dataToSave = {
       volume,
       duration,
       isAudioMuted,
       currrentProgress,
       playingsongId,
-      buffered,
     };
 
     saveDataToLocalStorage(dataToSave);
