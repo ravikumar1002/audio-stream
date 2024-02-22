@@ -1,16 +1,6 @@
+import { IAudioPlayerDataDTO } from "@dto/audioPlayerDataDto";
+import { IPlaylistSongCardDTO } from "@dto/playlistDTO";
 import { create } from "zustand";
-
-export interface IPlaylistSong {
-  _id: string;
-  name: string;
-  size: number | string;
-  duration: number;
-}
-
-export type ICurrentlyPlaying = Pick<IPlaylistSong, "_id" | "name" | "size" | "duration"> & {
-  type: string;
-  fileUrl: Blob | File;
-};
 
 interface IStore {
   volume: number;
@@ -18,14 +8,14 @@ interface IStore {
   currrentProgress: number;
   isAudioMuted: boolean;
   playingsongId: string | null;
-  playlistSongs: IPlaylistSong[];
-  currentlyPlaying: ICurrentlyPlaying | null;
+  playlistSongs: IPlaylistSongCardDTO[];
+  currentlyPlaying: IAudioPlayerDataDTO | null;
   setVolume: (volume: number) => void;
   setDuration: (duration: number) => void;
   setIsAudioMuted: (isAudioMuted: boolean) => void;
   setPlayingSongId: (playingsongId: string | null) => void;
-  setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => void;
-  setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying) => void;
+  setPlaylistSongs: (playlistSongs: IPlaylistSongCardDTO[]) => void;
+  setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO) => void;
   setCurrrentProgress: (currrentProgress: number) => void;
 }
 
@@ -41,7 +31,7 @@ export const useAppStore = create<IStore>()((set) => ({
   setIsAudioMuted: (isAudioMuted: boolean) => set({ isAudioMuted }),
   setDuration: (duration: number) => set({ duration }),
   setPlayingSongId: (playingsongId: string | null) => set({ playingsongId }),
-  setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => set({ playlistSongs }),
-  setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying | null) => set({ currentlyPlaying }),
+  setPlaylistSongs: (playlistSongs: IPlaylistSongCardDTO[]) => set({ playlistSongs }),
+  setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO | null) => set({ currentlyPlaying }),
   setCurrrentProgress: (currrentProgress: number) => set({ currrentProgress }),
 }));

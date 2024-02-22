@@ -1,5 +1,5 @@
-import { IPlaylistSongData } from "@components/AudioPlayer";
 import IndexDB_KEYS from "@constants/indexDbKeys";
+import { IAudioPlayerDataDTO } from "@dto/audioPlayerDataDto";
 import { useAppStore } from "@store/store";
 import { getIndividualIndexDBData } from "@utils/getIndexDBData";
 import { useEffect, useRef, useState } from "react";
@@ -13,7 +13,7 @@ export const useAudioPlayer = () => {
 
   useEffect(() => {
     (async () => {
-      const audioData = await getIndividualIndexDBData<IPlaylistSongData>(
+      const audioData = await getIndividualIndexDBData<IAudioPlayerDataDTO>(
         IndexDB_KEYS.PLAYLIST,
         playingsongId || "",
       );

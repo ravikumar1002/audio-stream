@@ -2,11 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { updateIndexDBData } from "./updateIndexDBData";
 import { getIndexDBKeyAllData } from "./getIndexDBData";
 import IndexDB_KEYS from "@constants/indexDbKeys";
-
-interface IQueueIndexDBData {
-  queue: string;
-  queueList: string[];
-}
+import { IIndexDBQueueDataDTO } from "@dto/indexDbQueueDTO";
 
 const getDuration = (file: File): Promise<number> => {
   return new Promise<number>((resolve, reject) => {
@@ -47,7 +43,9 @@ export const uploadAudios = async (selectedAudios: FileList) => {
       duration: Math.round(duration),
     };
     if (file.type === "audio/mpeg") {
-      const queueList = await getIndexDBKeyAllData<IQueueIndexDBData>(IndexDB_KEYS.PLAYLIST_QUEUE);
+      const queueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
+        IndexDB_KEYS.PLAYLIST_QUEUE,
+      );
       const queueListMerge = queueList.length > 0 ? [...queueList[0].queueList, _id] : [_id];
       updateIndexDBData(
         [IndexDB_KEYS.PLAYLIST, IndexDB_KEYS.PLAYLIST_QUEUE],

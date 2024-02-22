@@ -1,23 +1,13 @@
 import IndexDB_KEYS from "@constants/indexDbKeys";
+import { IIndexDBQueueDataDTO } from "@dto/indexDbQueueDTO";
+import { IPlaylistSongCardDTO } from "@dto/playlistDTO";
 import { useAppStore } from "@store/store";
 import { filterValueFromAudio } from "@utils/filterValueFromAudio";
 import { getIndexDBKeyAllData } from "@utils/getIndexDBData";
 import { updateIndexDBData } from "@utils/updateIndexDBData";
 import { db } from "App";
 
-interface IPlaylistSongCard {
-  _id: string;
-  name: string;
-  size: number | string;
-  duration: number;
-}
-
-interface IQueueIndexDBData {
-  queue: string;
-  queueList: string[];
-}
-
-export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCard }) => {
+export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
   const { name, duration, _id } = song;
   const { setPlayingSongId, setPlaylistSongs } = useAppStore();
 
@@ -36,23 +26,20 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCard }) => {
 
       deleteUserQueue.onsuccess = () => {
         (async () => {
-          const prevQueueList = await getIndexDBKeyAllData<IQueueIndexDBData>(
+          const prevQueueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
             IndexDB_KEYS.PLAYLIST_QUEUE,
           );
-          console.log(prevQueueList);
           const removingDeletedId = prevQueueList[0].queueList.filter((item) =>
             item === _id ? false : true,
           );
-          console.log(removingDeletedId);
           updateIndexDBData(
             [IndexDB_KEYS.PLAYLIST_QUEUE],
             [{ queue: "queue", queueList: removingDeletedId }],
             "Audio Deleted",
           );
-          const queueList = await getIndexDBKeyAllData<IQueueIndexDBData>(
+          const queueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
             IndexDB_KEYS.PLAYLIST_QUEUE,
           );
-          console.log(queueList);
           if (queueList.length > 0) {
             const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
             if (filterAudioData) {
