@@ -12,8 +12,8 @@ export const HomePage = () => {
           })
         ) : (
           <div className="mt-8">
-            <div>
-              <h4>Empty</h4>
+            <div className="flex w-full justify-center items-center h-full">
+              <h4 className="text-xl sm:text-2xl font-semibold">Empty</h4>
             </div>
           </div>
         )}

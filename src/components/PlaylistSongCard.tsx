@@ -57,7 +57,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
         </button>
         {playingsongId !== _id ? (
           <button
-            className="px-2 sm:px-2 sm:m-2 rounded-sm hover:bg-slate-200"
+            className="p-2 sm:p-3 sm:m-2 rounded-sm hover:bg-slate-200"
             onClick={() => {
               setPlayingSongId(_id);
             }}
@@ -73,12 +73,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
             </span>
           </button>
         ) : (
-          <button
-            className="px-2 sm:px-2 sm:m-2 rounded-sm hover:bg-slate-200"
-            onClick={() => {
-              playPauseHandler();
-            }}
-          >
+          <button className="p-2 sm:p-3 sm:m-2 rounded-sm hover:bg-slate-200">
             {isPlaying ? (
               <span className="h-6">
                 <svg
@@ -89,7 +84,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
                   x="0px"
                   y="0px"
                   viewBox="0 0 100 100"
-                  enable-background="new 0 0 100 100"
+                  enableBackground="new 0 0 100 100"
                   xmlSpace="preserve"
                   style={{
                     width: "inherit",
