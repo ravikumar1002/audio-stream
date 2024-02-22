@@ -15,7 +15,7 @@ export const HomePage = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke-linecap="round"
+              strokeLinecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               d="M16 16.333H8m0 0L12 12l-4-4m4 4l4-4m0 4V5.667a1.666 1.666 0 00-1.666-1.666H9.666A1.666 1.666 0 008 5.667V12m0 3.333v3.334A1.667 1.667 0 009.667 20h4.666a1.667 1.667 0 001.667-1.666V15.333"
@@ -34,7 +34,7 @@ export const HomePage = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke-linecap="round"
+              strokeLinecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               d="M6 18L18 6M6 6l12 12"
