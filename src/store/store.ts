@@ -1,10 +1,6 @@
+import { IAudioPlayerDataDTO } from "@dto/audioPlayerDataDto";
 import { IPlaylistSongCardDTO } from "@dto/playlistDTO";
 import { create } from "zustand";
-
-export type ICurrentlyPlaying = Pick<IPlaylistSongCardDTO, "_id" | "name" | "size" | "duration"> & {
-  type: string;
-  fileUrl: Blob | File;
-};
 
 interface IStore {
   volume: number;
@@ -13,13 +9,13 @@ interface IStore {
   isAudioMuted: boolean;
   playingsongId: string | null;
   playlistSongs: IPlaylistSongCardDTO[];
-  currentlyPlaying: ICurrentlyPlaying | null;
+  currentlyPlaying: IAudioPlayerDataDTO | null;
   setVolume: (volume: number) => void;
   setDuration: (duration: number) => void;
   setIsAudioMuted: (isAudioMuted: boolean) => void;
   setPlayingSongId: (playingsongId: string | null) => void;
   setPlaylistSongs: (playlistSongs: IPlaylistSongCardDTO[]) => void;
-  setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying) => void;
+  setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO) => void;
   setCurrrentProgress: (currrentProgress: number) => void;
 }
 
@@ -36,6 +32,6 @@ export const useAppStore = create<IStore>()((set) => ({
   setDuration: (duration: number) => set({ duration }),
   setPlayingSongId: (playingsongId: string | null) => set({ playingsongId }),
   setPlaylistSongs: (playlistSongs: IPlaylistSongCardDTO[]) => set({ playlistSongs }),
-  setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying | null) => set({ currentlyPlaying }),
+  setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO | null) => set({ currentlyPlaying }),
   setCurrrentProgress: (currrentProgress: number) => set({ currrentProgress }),
 }));

@@ -5,15 +5,6 @@ import { useAudioPlayer } from "@hooks/useAudioPlayer";
 import { AudioProgressBar } from "./AudioProgressBar";
 import { VolumeController } from "./VolumeController";
 
-export interface IPlaylistSongData {
-  duration: number;
-  fileUrl: Blob | File;
-  name: string;
-  size: number;
-  type: string;
-  _id: string;
-}
-
 export const AudioPlayer = () => {
   const {
     currentlyPlaying,
@@ -54,7 +45,7 @@ export const AudioPlayer = () => {
             key={currentlyPlaying._id}
             onPlaying={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
-            // preload="metadata"
+            preload="metadata"
             onDurationChange={(e) => setDuration(e.currentTarget.duration)}
             onEnded={nextTrackHandler}
             onCanPlay={(e) => {
