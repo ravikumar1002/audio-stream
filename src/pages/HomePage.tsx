@@ -44,7 +44,7 @@ export const HomePage = () => {
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="mt-1 sm:mt-4" >
         {playlistSongs.length > 0 ? (
           playlistSongs.map((audio) => {
             return <PlaylistSongCard key={audio._id} song={audio} />;
