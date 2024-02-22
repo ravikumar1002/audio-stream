@@ -18,7 +18,7 @@ export const PageLayout = (props: IPageLayout) => {
       </header>
       <main className="row-span-8 sm:row-span-9">
         <div className="grid h-full grid-rows-8">
-          <div className="mx-auto w-full max-w-5xl p-6 lg:px-8 row-span-7 overflow-scroll overflow-x-auto">
+          <div className="mx-auto w-full max-w-5xl p-6 lg:px-8 row-span-7 overflow-auto">
             {children}
           </div>
           <div className="mx-auto w-full max-w-5xl lg:px-8 relative">

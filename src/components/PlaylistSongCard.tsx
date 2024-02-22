@@ -1,62 +1,15 @@
-import IndexDB_KEYS from "@constants/indexDbKeys";
-import { IIndexDBQueueDataDTO } from "@dto/indexDbQueueDTO";
 import { IPlaylistSongCardDTO } from "@dto/playlistDTO";
+import { useAudioPlayer } from "@hooks/useAudioPlayer";
 import { useAppStore } from "@store/store";
-import { filterValueFromAudio } from "@utils/filterValueFromAudio";
-import { getIndexDBKeyAllData } from "@utils/getIndexDBData";
-import { updateIndexDBData } from "@utils/updateIndexDBData";
-import { db } from "App";
+
+import "./playlist-song_card.css";
+import { useDeleteAudioFRomIndexDB } from "@hooks/useDeleteAudioFromIndexDB";
 
 export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
   const { name, duration, _id } = song;
-  const { setPlayingSongId, setPlaylistSongs } = useAppStore();
-
-  const deleteAudio = (_id: string) => {
-    const dbPromise = db.open(IndexDB_KEYS.USER_DB, 2);
-
-    dbPromise.onsuccess = function () {
-      const db = dbPromise.result;
-      const tx = db.transaction(IndexDB_KEYS.PLAYLIST, "readwrite");
-      const userData = tx.objectStore(IndexDB_KEYS.PLAYLIST);
-      userData.delete(_id);
-
-      const queue = db.transaction(IndexDB_KEYS.PLAYLIST_QUEUE, "readwrite");
-      const queueList = queue.objectStore(IndexDB_KEYS.PLAYLIST_QUEUE);
-      const deleteUserQueue = queueList.delete(_id);
-
-      deleteUserQueue.onsuccess = () => {
-        (async () => {
-          const prevQueueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
-            IndexDB_KEYS.PLAYLIST_QUEUE,
-          );
-          const removingDeletedId = prevQueueList[0].queueList.filter((item) =>
-            item === _id ? false : true,
-          );
-          updateIndexDBData(
-            [IndexDB_KEYS.PLAYLIST_QUEUE],
-            [{ queue: "queue", queueList: removingDeletedId }],
-            "Audio Deleted",
-          );
-          const queueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
-            IndexDB_KEYS.PLAYLIST_QUEUE,
-          );
-          if (queueList.length > 0) {
-            const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
-            if (filterAudioData) {
-              setPlaylistSongs(filterAudioData);
-            }
-          }
-        })();
-      };
-
-      tx.oncomplete = function () {
-        db.close();
-      };
-      queue.oncomplete = function () {
-        db.close();
-      };
-    };
-  };
+  const { setPlayingSongId, isPlaying, setIsPlaying, playingsongId } = useAppStore();
+  const { playPauseHandler } = useAudioPlayer();
+  const { deleteAudioFromDb } = useDeleteAudioFRomIndexDB();
 
   return (
     <div className="flex gap-3 flex-col sm:flex-row items-center justify-start bg-white shadow-md rounded-md p-4 m-2">
@@ -76,7 +29,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
         <button
           className="px-2 m-2 hover:bg-slate-200  rounded-sm"
           onClick={() => {
-            deleteAudio(_id);
+            deleteAudioFromDb(_id);
           }}
         >
           <span>
@@ -102,23 +55,64 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
             </svg>
           </span>
         </button>
-
-        <button
-          className="p-2 m-2 rounded-sm hover:bg-slate-200"
-          onClick={() => {
-            setPlayingSongId(_id);
-          }}
-        >
-          <span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" id="Play" className="h-6">
-              <path
-                d="M12 39c-.549 0-1.095-.15-1.578-.447A3.008 3.008 0 0 1 9 36V12c0-1.041.54-2.007 1.422-2.553a3.014 3.014 0 0 1 2.919-.132l24 12a3.003 3.003 0 0 1 0 5.37l-24 12c-.42.21-.885.315-1.341.315z"
-                fill="#34a853"
-                className="color000000 svgShape"
-              ></path>
-            </svg>
-          </span>
-        </button>
+        {playingsongId !== _id ? (
+          <button
+            className="p-2 m-2 rounded-sm hover:bg-slate-200"
+            onClick={() => {
+              setPlayingSongId(_id);
+            }}
+          >
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" id="Play" className="h-6">
+                <path
+                  d="M12 39c-.549 0-1.095-.15-1.578-.447A3.008 3.008 0 0 1 9 36V12c0-1.041.54-2.007 1.422-2.553a3.014 3.014 0 0 1 2.919-.132l24 12a3.003 3.003 0 0 1 0 5.37l-24 12c-.42.21-.885.315-1.341.315z"
+                  fill="#34a853"
+                  className="color000000 svgShape"
+                ></path>
+              </svg>
+            </span>
+          </button>
+        ) : (
+          <button
+            className="p-2 m-2 rounded-sm hover:bg-slate-200"
+            onClick={() => {
+              playPauseHandler();
+            }}
+          >
+            {isPlaying ? (
+              <span className="h-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 48 48"
+                  id="Pause"
+                  className="h-6"
+                >
+                  <path
+                    d="M12 38h8V10h-8v28zm16-28v28h8V10h-8z"
+                    fill="#34a853"
+                    className="color000000 svgShape"
+                  ></path>
+                  <path fill="none" d="M0 0h48v48H0z"></path>
+                </svg>
+              </span>
+            ) : (
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 48 48"
+                  id="Play"
+                  className="h-6"
+                >
+                  <path
+                    d="M12 39c-.549 0-1.095-.15-1.578-.447A3.008 3.008 0 0 1 9 36V12c0-1.041.54-2.007 1.422-2.553a3.014 3.014 0 0 1 2.919-.132l24 12a3.003 3.003 0 0 1 0 5.37l-24 12c-.42.21-.885.315-1.341.315z"
+                    fill="#34a853"
+                    className="color000000 svgShape"
+                  ></path>
+                </svg>
+              </span>
+            )}
+          </button>
+        )}
       </div>
     </div>
   );

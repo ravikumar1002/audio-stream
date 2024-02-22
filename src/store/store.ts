@@ -3,6 +3,7 @@ import { IPlaylistSongCardDTO } from "@dto/playlistDTO";
 import { create } from "zustand";
 
 interface IStore {
+  isPlaying: boolean;
   volume: number;
   duration: number;
   currrentProgress: number;
@@ -17,9 +18,11 @@ interface IStore {
   setPlaylistSongs: (playlistSongs: IPlaylistSongCardDTO[]) => void;
   setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO) => void;
   setCurrrentProgress: (currrentProgress: number) => void;
+  setIsPlaying: (isPlaying: boolean) => void;
 }
 
 export const useAppStore = create<IStore>()((set) => ({
+  isPlaying: false,
   volume: 0.8,
   duration: 0,
   isAudioMuted: false,
@@ -34,4 +37,5 @@ export const useAppStore = create<IStore>()((set) => ({
   setPlaylistSongs: (playlistSongs: IPlaylistSongCardDTO[]) => set({ playlistSongs }),
   setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO | null) => set({ currentlyPlaying }),
   setCurrrentProgress: (currrentProgress: number) => set({ currrentProgress }),
+  setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
 }));

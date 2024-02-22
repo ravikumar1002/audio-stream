@@ -14,16 +14,11 @@ export const AudioPlayer = () => {
     setCurrrentProgress,
     volume,
     setVolume,
+    isPlaying,
+    setIsPlaying,
   } = useAppStore();
 
-  const {
-    isPlaying,
-    nextTrackHandler,
-    prevTrackHandler,
-    playPauseHandler,
-    setIsPlaying,
-    audioRef,
-  } = useAudioPlayer();
+  const { nextTrackHandler, prevTrackHandler, playPauseHandler, audioRef } = useAudioPlayer();
 
   const setAudioCurrentTime = () => {
     if (audioRef.current) {

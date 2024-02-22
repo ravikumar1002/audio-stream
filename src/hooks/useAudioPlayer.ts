@@ -2,14 +2,19 @@ import IndexDB_KEYS from "@constants/indexDbKeys";
 import { IAudioPlayerDataDTO } from "@dto/audioPlayerDataDto";
 import { useAppStore } from "@store/store";
 import { getIndividualIndexDBData } from "@utils/getIndexDBData";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export const useAudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const { playingsongId, setPlayingSongId, playlistSongs, setCurrentlyPlaying } = useAppStore();
-
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const {
+    playingsongId,
+    setPlayingSongId,
+    playlistSongs,
+    setCurrentlyPlaying,
+    isPlaying,
+    setIsPlaying,
+  } = useAppStore();
 
   useEffect(() => {
     (async () => {
@@ -59,7 +64,9 @@ export const useAudioPlayer = () => {
   };
 
   const playPauseHandler = () => {
+    console.log("avc");
     if (audioRef?.current) {
+      console.log(isPlaying);
       if (isPlaying) {
         audioRef.current.pause();
       } else {
@@ -70,11 +77,9 @@ export const useAudioPlayer = () => {
   };
 
   return {
-    isPlaying,
     nextTrackHandler,
     prevTrackHandler,
     playPauseHandler,
-    setIsPlaying,
     audioRef,
   };
 };
