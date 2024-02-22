@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { PlayerController } from "./PlayerController";
 import { useAppStore } from "@store/store";
 import { useAudioPlayer } from "@hooks/useAudioPlayer";

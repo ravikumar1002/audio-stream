@@ -28,7 +28,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCard }) => {
       const db = dbPromise.result;
       const tx = db.transaction(IndexDB_KEYS.PLAYLIST, "readwrite");
       const userData = tx.objectStore(IndexDB_KEYS.PLAYLIST);
-      const deleteAudio = userData.delete(_id);
+      userData.delete(_id);
 
       const queue = db.transaction(IndexDB_KEYS.PLAYLIST_QUEUE, "readwrite");
       const queueList = queue.objectStore(IndexDB_KEYS.PLAYLIST_QUEUE);
