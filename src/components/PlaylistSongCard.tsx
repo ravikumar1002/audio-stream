@@ -21,7 +21,10 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
           className={`flex flex-col ${playingsongId === _id ? "text-lime-500" : "text-inherit"}`}
         >
           <h3 className="text-sm sm:text-base font-semibold break-all">{name}</h3>
-          <p className="text-gray-500">{`${(duration / 60).toFixed(2)} minutes`}</p>
+          <p className="text-gray-500">{`${(duration / 60)
+            .toFixed(2)
+            .split(".")
+            .join(":")} min`}</p>
         </div>
       </div>
 
