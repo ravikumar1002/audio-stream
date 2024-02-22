@@ -1,30 +1,28 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+ # Audio Stream
+  **Preview URL :** 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ 
+## Overview
+This repository contains the source code for an Audio Player website. The website allows users to upload and listen to audio files. Users can upload their audio files, which are then processed and made available for playback through the audio player interface.
 
-## Expanding the ESLint configuration
+ ## Features
+  **Upload Audio :**   Users can upload their audio files using the website's upload functionality.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Audio Playback :** Uploaded audio files can be played back through the website's audio player interface.
 
-- Configure the top-level `parserOptions` property like this:
+**Responsive Design :** The website is designed to be responsive, ensuring optimal viewing and interaction experience across various devices and screen sizes.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+**User-friendly Interface :** The user interface is designed to be intuitive and easy to use.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+**Accessibility :** The website aims to adhere to accessibility standards, ensuring that it is usable by individuals with disabilities.
+
+## Technologies Used
+ * **Frontend :** HTML, CSS, JavaScript
+
+ * **Database :** Use the browser's IndexDB for database storage in combination with local storage.
+
+ **Audio Processing :** Include an HTML audio element with custom-designed controls I created.
+
+ * **Deployment :** Netlify.
