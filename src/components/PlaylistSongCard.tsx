@@ -17,7 +17,9 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
           alt={name}
           className="w-full sm:w-24 h-auto mb-2 sm:mb-0 sm:mr-4 rounded-md max-w-10 max-h-10 sm:max-w-10 sm:max-h-10"
         />
-        <div className="flex flex-col">
+        <div
+          className={`flex flex-col ${playingsongId === _id ? "text-lime-500" : "text-inherit"}`}
+        >
           <h3 className="text-sm sm:text-base font-semibold break-all">{name}</h3>
           <p className="text-gray-500">{`${(duration / 60).toFixed(2)} minutes`}</p>
         </div>
@@ -43,11 +45,11 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
                 d="M18.8,8.1l-1.7,11.2c-0.2,1-1,1.7-2,1.7h-3c1,0,1.8-0.7,2-1.7l1.7-11.2c0.1-0.6-0.4-1.1-1-1.1h3C18.5,7,18.9,7.5,18.8,8.1z"
               ></path>
               <path
-                fill="#ff4d4d"
+                fill="#8c2727"
                 d="M17.8 6H6.2C5.6 6 5 6.3 4.6 6.7c-.4.4-.5 1-.5 1.6l1.7 11.1c.2 1.5 1.5 2.6 3 2.6h6.3c1.5 0 2.7-1.1 3-2.5l1.7-11.1c.1-.6-.1-1.2-.5-1.6C19 6.3 18.4 6 17.8 6zM16.1 19.2c-.1.5-.5.8-1 .8H8.8c-.5 0-.9-.4-1-.9L6.2 8h11.7L16.1 19.2zM5 5h14c.6 0 1-.4 1-1s-.4-1-1-1h-4c0-.6-.4-1-1-1h-4C9.4 2 9 2.4 9 3H5C4.4 3 4 3.4 4 4S4.4 5 5 5z"
               ></path>
               <path
-                fill="#ff4d4d"
+                fill="#8c2727"
                 d="M12,19c0.6,0,1-0.4,1-1v-6c0-0.6-0.4-1-1-1s-1,0.4-1,1v6C11,18.6,11.4,19,12,19z"
               ></path>
             </svg>
