@@ -12,7 +12,10 @@ export const PageLayout = (props: IPageLayout) => {
   const { playingsongId } = useAppStore();
 
   return (
-    <div className="h-screen grid grid-rows-9 sm:grid-rows-10" style={{ minHeight: "500px" }}>
+    <div
+      className="h-screen grid grid-rows-9 sm:grid-rows-10"
+      style={{ minHeight: "500px", height: "100dvh" }}
+    >
       <header className="header h-full bg-white">
         <Header />
       </header>
