@@ -58,7 +58,9 @@ export const HomePage = () => {
         ) : (
           <div className="mt-8">
             <div className="flex h-full w-full items-center justify-center">
-              <h4 className="text-xl font-semibold sm:text-2xl">Upload Audio to play</h4>
+              <h4 className="text-xl font-semibold text-zinc-400 sm:text-2xl">
+                Upload Audio to play
+              </h4>
             </div>
           </div>
         )}
