@@ -7,7 +7,8 @@ import { IIndexDBQueueDataDTO } from "@dto/indexDbQueueDTO";
 import { useAppStore } from "@store/store";
 
 export const useDeleteAudioFRomIndexDB = () => {
-  const { setPlaylistSongs, playingsongId, setPlayingSongId } = useAppStore();
+  const { setPlaylistSongs, playingsongId, setPlayingSongId, setDeletingStatusAlert } =
+    useAppStore();
 
   const deleteAudioFromDb = (_id: string) => {
     const dbPromise = db.open(IndexDB_KEYS.USER_DB, 2);
@@ -30,10 +31,10 @@ export const useDeleteAudioFRomIndexDB = () => {
           const removingDeletedId = prevQueueList[0].queueList.filter((item) =>
             item === _id ? false : true,
           );
+          setDeletingStatusAlert(true);
           updateIndexDBData(
             [IndexDB_KEYS.PLAYLIST_QUEUE],
             [{ queue: "queue", queueList: removingDeletedId }],
-            "Audio Deleted",
           );
           const queueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
             IndexDB_KEYS.PLAYLIST_QUEUE,
@@ -44,6 +45,7 @@ export const useDeleteAudioFRomIndexDB = () => {
               setPlaylistSongs(filterAudioData);
             }
           }
+          setDeletingStatusAlert(false);
           if (playingsongId === _id) {
             setPlayingSongId(null);
           }

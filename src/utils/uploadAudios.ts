@@ -50,7 +50,6 @@ export const uploadAudios = async (selectedAudios: FileList) => {
       updateIndexDBData(
         [IndexDB_KEYS.PLAYLIST, IndexDB_KEYS.PLAYLIST_QUEUE],
         [fileInfo, { queue: "queue", queueList: queueListMerge }],
-        "Audio Added",
       );
     }
   }

@@ -7,10 +7,11 @@ import { uploadAudios } from "@utils/uploadAudios";
 import { ChangeEventHandler } from "react";
 
 export const Header = () => {
-  const { setPlaylistSongs } = useAppStore();
+  const { setPlaylistSongs, setAddingStatusAlert } = useAppStore();
 
   const handleFileUpload: ChangeEventHandler<HTMLInputElement> = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
+      setAddingStatusAlert(true);
       await uploadAudios(e.target.files);
       const queueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
         IndexDB_KEYS.PLAYLIST_QUEUE,
@@ -21,6 +22,7 @@ export const Header = () => {
           setPlaylistSongs(filterAudioData);
         }
       }
+      setAddingStatusAlert(false);
     }
   };
 
@@ -43,7 +45,7 @@ export const Header = () => {
           htmlFor="upload-mp3"
           className="flex items-center gap-2 text-sm font-semibold text-gray-900 cursor-pointer"
         >
-          <span>Upload songs</span>
+          <span>Upload Audio</span>
           <svg
             className="w-6 h-6"
             fill="currentColor"
