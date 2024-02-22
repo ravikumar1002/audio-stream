@@ -8,10 +8,11 @@ interface ISongController {
 export const PlayerController = (props: ISongController) => {
   const { isPlaying, prevTrackHandler, playPauseHandler, nextTrackHandler } = props;
   return (
-    <div className="flex justify-center items-center gap-6">
+    <div className="flex items-center justify-center gap-6">
       <button
-        className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 "
+        className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 "
         onClick={prevTrackHandler}
+        title="Previous"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,8 +29,9 @@ export const PlayerController = (props: ISongController) => {
         </svg>
       </button>
       <button
-        className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 "
+        className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 "
         onClick={playPauseHandler}
+        title={isPlaying ? "Pause" : "Play"}
       >
         {isPlaying ? (
           <svg
@@ -54,8 +56,9 @@ export const PlayerController = (props: ISongController) => {
         )}
       </button>
       <button
-        className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 "
+        className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 "
         onClick={nextTrackHandler}
+        title="Next"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

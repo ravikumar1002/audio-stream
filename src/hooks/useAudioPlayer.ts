@@ -12,9 +12,11 @@ export const useAudioPlayer = () => {
     setPlayingSongId,
     playlistSongs,
     setCurrentlyPlaying,
+    currentlyPlaying,
     isPlaying,
     setIsPlaying,
     setCurrrentProgress,
+    currrentProgress,
   } = useAppStore();
 
   useEffect(() => {
@@ -44,6 +46,16 @@ export const useAudioPlayer = () => {
     };
   };
 
+  const setAudioCurrentTime = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = currrentProgress;
+    }
+  };
+
+  useEffect(() => {
+    setAudioCurrentTime();
+  }, [currentlyPlaying]);
+
   useEffect(autoPlayAudio, [playingsongId]);
 
   const nextTrackHandler = async () => {
@@ -67,9 +79,7 @@ export const useAudioPlayer = () => {
   };
 
   const playPauseHandler = () => {
-    console.log("avc");
     if (audioRef?.current) {
-      console.log(isPlaying);
       if (isPlaying) {
         audioRef.current.pause();
       } else {

@@ -5,10 +5,14 @@ export const HomePage = () => {
   const { playlistSongs, deletingStatusAlert, addingStatusAlert } = useAppStore();
   return (
     <div>
+      <div className="flex gap-4 px-4">
+        <h3 className="text-lg font-semibold">Total Audio files: </h3>
+        <p className="text-lg font-semibold">{playlistSongs.length}</p>
+      </div>
       {addingStatusAlert && (
-        <div className="flex items-center bg-gray-100 p-4 rounded-md shadow-md">
+        <div className="flex items-center rounded-md bg-gray-100 p-4 shadow-md">
           <svg
-            className="w-6 h-6 text-blue-500 mr-2"
+            className="mr-2 h-6 w-6 text-blue-500"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -25,9 +29,9 @@ export const HomePage = () => {
         </div>
       )}
       {deletingStatusAlert && (
-        <div className="flex items-center bg-gray-100 p-4 rounded-md shadow-md">
+        <div className="flex items-center rounded-md bg-gray-100 p-4 shadow-md">
           <svg
-            className="w-6 h-6 text-red-500 mr-2"
+            className="mr-2 h-6 w-6 text-red-500"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -44,15 +48,15 @@ export const HomePage = () => {
         </div>
       )}
 
-      <div className="mt-1 sm:mt-4" >
+      <div className="mt-1 sm:mt-4">
         {playlistSongs.length > 0 ? (
           playlistSongs.map((audio) => {
             return <PlaylistSongCard key={audio._id} song={audio} />;
           })
         ) : (
           <div className="mt-8">
-            <div className="flex w-full justify-center items-center h-full">
-              <h4 className="text-xl sm:text-2xl font-semibold">Empty</h4>
+            <div className="flex h-full w-full items-center justify-center">
+              <h4 className="text-xl font-semibold sm:text-2xl">Empty</h4>
             </div>
           </div>
         )}

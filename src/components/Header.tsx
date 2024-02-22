@@ -27,27 +27,27 @@ export const Header = () => {
   };
 
   return (
-    <nav
-      className="mx-auto flex items-center justify-between p-6 lg:px-8 max-w-7xl h-full border-b-2 border-slate-300"
-      aria-label="Global"
-    >
-      <div className="-m-1.5 p-1.5 flex items-center gap-2">
-        <img
-          className="h-8 w-auto"
-          src="https://static.vecteezy.com/system/resources/previews/026/991/817/original/3d-streaming-music-online-icon-for-ui-ux-web-mobile-apps-social-media-ads-design-free-png.png"
-          alt="Audio Stream"
-        />
-        <span className="text-xl font-semibold">Audio Stream</span>
-      </div>
+    <header className="h-full bg-white">
+      <nav
+        className="mx-auto flex h-full max-w-7xl items-center justify-between border-b-2 border-slate-300 p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div className="gap-2p-1.5 -m-1.5 flex items-center ">
+          <img
+            className="h-8 w-auto"
+            src="https://static.vecteezy.com/system/resources/previews/026/991/817/original/3d-streaming-music-online-icon-for-ui-ux-web-mobile-apps-social-media-ads-design-free-png.png"
+            alt="Audio Stream"
+          />
+          <span className="text-xl font-semibold">Audio Stream</span>
+        </div>
 
-      <div>
         <label
           htmlFor="upload-mp3"
-          className="flex items-center gap-2 text-sm font-semibold text-gray-900 cursor-pointer"
+          className="flex cursor-pointer items-center gap-2 rounded-md px-4  py-2 text-sm font-semibold text-gray-900 hover:bg-slate-100 "
         >
           <span>Upload Audio</span>
           <svg
-            className="w-6 h-6"
+            className="h-6 w-6"
             fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -63,7 +63,7 @@ export const Header = () => {
             onChange={handleFileUpload}
           />
         </label>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
