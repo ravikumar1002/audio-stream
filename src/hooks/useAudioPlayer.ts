@@ -14,6 +14,7 @@ export const useAudioPlayer = () => {
     setCurrentlyPlaying,
     isPlaying,
     setIsPlaying,
+    setCurrrentProgress,
   } = useAppStore();
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export const useAudioPlayer = () => {
   useEffect(autoPlayAudio, [playingsongId]);
 
   const nextTrackHandler = async () => {
+    setCurrrentProgress(0);
     const findNextId = playlistSongs.findIndex((item) => item._id === playingsongId);
     const nextSongId =
       findNextId < playlistSongs.length - 1
@@ -55,6 +57,7 @@ export const useAudioPlayer = () => {
   };
 
   const prevTrackHandler = async () => {
+    setCurrrentProgress(0);
     const findPrevId = playlistSongs.findIndex((item) => item._id === playingsongId);
     const prevSongId =
       findPrevId <= 0

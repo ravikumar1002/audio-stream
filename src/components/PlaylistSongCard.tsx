@@ -6,7 +6,7 @@ import { useDeleteAudioFRomIndexDB } from "@hooks/useDeleteAudioFromIndexDB";
 
 export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
   const { name, duration, _id } = song;
-  const { setPlayingSongId, isPlaying, playingsongId } = useAppStore();
+  const { setPlayingSongId, isPlaying, playingsongId, setCurrrentProgress } = useAppStore();
   const { deleteAudioFromDb } = useDeleteAudioFRomIndexDB();
 
   return (
@@ -58,6 +58,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
             className="p-2 sm:p-3 sm:m-2 rounded-sm hover:bg-slate-200"
             onClick={() => {
               setPlayingSongId(_id);
+              setCurrrentProgress(0);
             }}
           >
             <span>
