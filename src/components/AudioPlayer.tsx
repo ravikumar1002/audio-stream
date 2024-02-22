@@ -62,7 +62,7 @@ export const AudioPlayer = () => {
             nextTrackHandler={nextTrackHandler}
           />
         </div>
-        <div className="flex-grow text-center -order-1 sm:order-none">
+        <div className="flex-grow text-center -order-1 w-full sm:order-none">
           <h3 className="text-sm sm:text-base sm:px-3 font-semibold break-all">
             {currentlyPlaying?.name}
           </h3>
