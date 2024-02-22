@@ -20,8 +20,8 @@ export const AudioPlayer = () => {
   const { nextTrackHandler, prevTrackHandler, playPauseHandler, audioRef } = useAudioPlayer();
 
   return (
-    <div className="relative h-full bg-gray-200 ">
-      <div className="mx-auto flex h-full max-w-7xl flex-wrap items-center justify-between px-6 py-3 sm:flex-nowrap">
+    <div className="h-full w-full bg-gray-200 px-3 sm:px-6">
+      <div className="mx-auto flex h-full w-full flex-wrap items-center justify-between px-4 py-3 sm:flex-nowrap sm:px-12">
         {currentlyPlaying && (
           <audio
             ref={audioRef}

@@ -29,7 +29,7 @@ export const Header = () => {
   return (
     <header className="h-full bg-white">
       <nav
-        className="mx-auto flex h-full max-w-7xl items-center justify-between border-b-2 border-slate-300 p-6 lg:px-8"
+        className="mx-auto flex h-full items-center justify-between border-b-2 border-slate-300 p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="gap-2p-1.5 -m-1.5 flex items-center ">

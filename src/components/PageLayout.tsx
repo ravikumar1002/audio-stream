@@ -25,7 +25,7 @@ export const PageLayout = (props: IPageLayout) => {
           >
             {children}
           </div>
-          <div className="relative mx-auto w-full lg:px-8">
+          <div className="relative mx-auto w-full">
             {playingsongId && <AudioPlayer key={playingsongId} />}
           </div>
         </div>

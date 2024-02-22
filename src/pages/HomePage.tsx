@@ -5,10 +5,12 @@ export const HomePage = () => {
   const { playlistSongs, deletingStatusAlert, addingStatusAlert } = useAppStore();
   return (
     <div>
-      <div className="flex gap-4 px-4">
-        <h3 className="text-lg font-semibold">Total Audio files: </h3>
-        <p className="text-lg font-semibold">{playlistSongs.length}</p>
-      </div>
+      {playlistSongs.length > 0 && (
+        <div className="flex gap-4 px-4">
+          <h3 className="text-lg font-semibold">Uploaded Files: </h3>
+          <p className="text-lg font-semibold">{playlistSongs.length}</p>
+        </div>
+      )}
       {addingStatusAlert && (
         <div className="flex items-center rounded-md bg-gray-100 p-4 shadow-md">
           <svg
@@ -56,7 +58,7 @@ export const HomePage = () => {
         ) : (
           <div className="mt-8">
             <div className="flex h-full w-full items-center justify-center">
-              <h4 className="text-xl font-semibold sm:text-2xl">Empty</h4>
+              <h4 className="text-xl font-semibold sm:text-2xl">Upload Audio to play</h4>
             </div>
           </div>
         )}

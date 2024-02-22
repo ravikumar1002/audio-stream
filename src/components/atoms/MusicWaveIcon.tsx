@@ -24,8 +24,8 @@ const MusicWaveIcon = (props: Props) => {
     >
       {[...new Array(5).fill(0)].map((_i, index) => (
         <rect
-          fill={`${pause ? "#000000" : "rgb(132, 204, 22)"}`}
-          width={`${pause ? 3 : 6}`}
+          fill={`${pause ? "#999999" : "rgb(132, 204, 22)"}`}
+          width={`${pause ? 2 : 6}`}
           height="100"
           key={index}
           transform={`translate(0) rotate(180 ${index * 20} 50)`}
