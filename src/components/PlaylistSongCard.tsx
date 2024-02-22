@@ -7,27 +7,27 @@ import { useDeleteAudioFRomIndexDB } from "@hooks/useDeleteAudioFromIndexDB";
 
 export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
   const { name, duration, _id } = song;
-  const { setPlayingSongId, isPlaying, setIsPlaying, playingsongId } = useAppStore();
+  const { setPlayingSongId, isPlaying, playingsongId } = useAppStore();
   const { playPauseHandler } = useAudioPlayer();
   const { deleteAudioFromDb } = useDeleteAudioFRomIndexDB();
 
   return (
-    <div className="flex gap-3 flex-col sm:flex-row items-center justify-start bg-white shadow-md rounded-md p-4 m-2">
-      <div className="flex gap-3 grow  items-center ">
+    <div className="flex gap-3 flex-col sm:flex-row items-center justify-start bg-white shadow-md rounded-md p-3 sm:p-4 m-2">
+      <div className="flex gap-4 sm:gap3 grow  items-center w-full">
         <img
           src={"https://cdn-icons-png.flaticon.com/512/181/181603.png"}
           alt={name}
-          className="w-full sm:w-24 h-auto mb-4 sm:mb-0 sm:mr-4 rounded-md max-w-20 max-h-20"
+          className="w-full sm:w-24 h-auto mb-2 sm:mb-0 sm:mr-4 rounded-md max-w-10 max-h-10 sm:max-w-10 sm:max-h-10"
         />
         <div className="flex flex-col">
-          <h3 className="text-lg font-semibold break-all">{name}</h3>
-          <p className="text-gray-500">{duration}</p>
+          <h3 className="text-sm sm:text-base font-semibold break-all">{name}</h3>
+          <p className="text-gray-500">{`${(duration / 60).toFixed(2)} minutes`}</p>
         </div>
       </div>
 
       <div className="flex gap-6 m-auto font-semibold">
         <button
-          className="px-2 m-2 hover:bg-slate-200  rounded-sm"
+          className="px-2 sm:px-2 sm:m-2 hover:bg-slate-200  rounded-sm"
           onClick={() => {
             deleteAudioFromDb(_id);
           }}
@@ -57,7 +57,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
         </button>
         {playingsongId !== _id ? (
           <button
-            className="p-2 m-2 rounded-sm hover:bg-slate-200"
+            className="px-2 sm:px-2 sm:m-2 rounded-sm hover:bg-slate-200"
             onClick={() => {
               setPlayingSongId(_id);
             }}
@@ -74,7 +74,7 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
           </button>
         ) : (
           <button
-            className="p-2 m-2 rounded-sm hover:bg-slate-200"
+            className="px-2 sm:px-2 sm:m-2 rounded-sm hover:bg-slate-200"
             onClick={() => {
               playPauseHandler();
             }}
@@ -82,17 +82,99 @@ export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
             {isPlaying ? (
               <span className="h-6">
                 <svg
+                  version="1.1"
+                  id="Layer_1"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 48 48"
-                  id="Pause"
-                  className="h-6"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  x="0px"
+                  y="0px"
+                  viewBox="0 0 100 100"
+                  enable-background="new 0 0 100 100"
+                  xmlSpace="preserve"
+                  style={{
+                    width: "inherit",
+                    height: "inherit",
+                    display: "inline-block",
+                  }}
                 >
-                  <path
-                    d="M12 38h8V10h-8v28zm16-28v28h8V10h-8z"
-                    fill="#34a853"
-                    className="color000000 svgShape"
-                  ></path>
-                  <path fill="none" d="M0 0h48v48H0z"></path>
+                  <rect
+                    fill="#000000"
+                    width="3"
+                    height="100"
+                    transform="translate(0) rotate(180 3 50)"
+                  >
+                    <animate
+                      attributeName="height"
+                      attributeType="XML"
+                      dur="1s"
+                      values="30; 100; 30"
+                      repeatCount="indefinite"
+                    />
+                  </rect>
+                  <rect
+                    x="17"
+                    fill="#000000"
+                    width="3"
+                    height="100"
+                    transform="translate(0) rotate(180 20 50)"
+                  >
+                    <animate
+                      attributeName="height"
+                      attributeType="XML"
+                      dur="1s"
+                      values="30; 100; 30"
+                      repeatCount="indefinite"
+                      begin="0.1s"
+                    />
+                  </rect>
+                  <rect
+                    x="40"
+                    fill="#000000"
+                    width="3"
+                    height="100"
+                    transform="translate(0) rotate(180 40 50)"
+                  >
+                    <animate
+                      attributeName="height"
+                      attributeType="XML"
+                      dur="1s"
+                      values="30; 100; 30"
+                      repeatCount="indefinite"
+                      begin="0.3s"
+                    />
+                  </rect>
+                  <rect
+                    x="60"
+                    fill="#000000"
+                    width="3"
+                    height="100"
+                    transform="translate(0) rotate(180 58 50)"
+                  >
+                    <animate
+                      attributeName="height"
+                      attributeType="XML"
+                      dur="1s"
+                      values="30; 100; 30"
+                      repeatCount="indefinite"
+                      begin="0.5s"
+                    />
+                  </rect>
+                  <rect
+                    x="80"
+                    fill="#000000"
+                    width="3"
+                    height="100"
+                    transform="translate(0) rotate(180 76 50)"
+                  >
+                    <animate
+                      attributeName="height"
+                      attributeType="XML"
+                      dur="1s"
+                      values="30; 100; 30"
+                      repeatCount="indefinite"
+                      begin="0.1s"
+                    />
+                  </rect>
                 </svg>
               </span>
             ) : (

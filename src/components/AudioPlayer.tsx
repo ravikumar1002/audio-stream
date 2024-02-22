@@ -29,11 +29,11 @@ export const AudioPlayer = () => {
 
   useEffect(() => {
     setAudioCurrentTime();
-  }, []);
+  }, [currentlyPlaying]);
 
   return (
     <div className="h-full relative bg-gray-200 ">
-      <div className="flex justify-between py-3 px-6 max-w-7xl mx-auto h-full items-center">
+      <div className="flex flex-wrap sm:flex-nowrap  justify-between py-3 px-6 max-w-7xl mx-auto h-full items-center">
         {currentlyPlaying && (
           <audio
             ref={audioRef}
@@ -62,8 +62,10 @@ export const AudioPlayer = () => {
             nextTrackHandler={nextTrackHandler}
           />
         </div>
-        <div className="flex-grow text-center">
-          <h3 className="text-xl font-semibold">{currentlyPlaying?.name}</h3>
+        <div className="flex-grow text-center -order-1 sm:order-none">
+          <h3 className="text-sm sm:text-base sm:px-3 font-semibold break-all">
+            {currentlyPlaying?.name}
+          </h3>
         </div>
         <div className="flex items-center justify-end">
           <VolumeController audioRef={audioRef} setVolume={setVolume} volume={volume} />
