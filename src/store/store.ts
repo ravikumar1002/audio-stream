@@ -9,7 +9,7 @@ export interface IPlaylistSong {
 
 export type ICurrentlyPlaying = Pick<IPlaylistSong, "_id" | "name" | "size" | "duration"> & {
   type: string;
-  fileUrl: File;
+  fileUrl: Blob | File;
 };
 
 interface IStore {
@@ -20,7 +20,6 @@ interface IStore {
   playingsongId: string | null;
   playlistSongs: IPlaylistSong[];
   currentlyPlaying: ICurrentlyPlaying | null;
-  buffered: number;
   setVolume: (volume: number) => void;
   setDuration: (duration: number) => void;
   setIsAudioMuted: (isAudioMuted: boolean) => void;
@@ -28,7 +27,6 @@ interface IStore {
   setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => void;
   setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying) => void;
   setCurrrentProgress: (currrentProgress: number) => void;
-  setBuffered: (currrentProgress: number) => void;
 }
 
 export const useAppStore = create<IStore>()((set) => ({
@@ -39,7 +37,6 @@ export const useAppStore = create<IStore>()((set) => ({
   playingsongId: null,
   playlistSongs: [],
   currentlyPlaying: null,
-  buffered: 0,
   setVolume: (volume: number) => set({ volume: volume }),
   setIsAudioMuted: (isAudioMuted: boolean) => set({ isAudioMuted }),
   setDuration: (duration: number) => set({ duration }),
@@ -47,5 +44,4 @@ export const useAppStore = create<IStore>()((set) => ({
   setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => set({ playlistSongs }),
   setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying | null) => set({ currentlyPlaying }),
   setCurrrentProgress: (currrentProgress: number) => set({ currrentProgress }),
-  setBuffered: (buffered: number) => set({ buffered }),
 }));

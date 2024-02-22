@@ -1,87 +1,81 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { PlayerController } from "./PlayerController";
-import IndexDB_KEYS from "@constants/indexDbKeys";
-import { getIndividualIndexDBData } from "@utils/getIndexDBData";
 import { useAppStore } from "@store/store";
 import { useAudioPlayer } from "@hooks/useAudioPlayer";
 import { AudioProgressBar } from "./AudioProgressBar";
 import { VolumeController } from "./VolumeController";
 
-function formatDurationDisplay(duration: number) {
-  const min = Math.floor(duration / 60);
-  const sec = Math.floor(duration - min * 60);
-
-  const formatted = [min, sec].map((n) => (n < 10 ? "0" + n : n)).join(":");
-
-  return formatted;
+export interface IPlaylistSongData {
+  duration: number;
+  fileUrl: Blob | File;
+  name: string;
+  size: number;
+  type: string;
+  _id: string;
 }
 
-export const AudioPlayer = ({ audioId }: { audioId: string }) => {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+export const AudioPlayer = () => {
   const {
     currentlyPlaying,
-    setCurrentlyPlaying,
-    playingsongId,
     duration,
     setDuration,
     currrentProgress,
     setCurrrentProgress,
-    buffered,
-    setBuffered,
     volume,
     setVolume,
   } = useAppStore();
+
   const [isReady, setIsReady] = useState(false);
 
-  const { isPlaying, nextTrackHandler, prevTrackHandler, playPauseHandler, setIsPlaying } =
-    useAudioPlayer({ audioId, audioRef });
+  const {
+    isPlaying,
+    nextTrackHandler,
+    prevTrackHandler,
+    playPauseHandler,
+    setIsPlaying,
+    audioRef,
+  } = useAudioPlayer();
 
-  useEffect(() => {
-    (async () => {
-      const audioData = await getIndividualIndexDBData(IndexDB_KEYS.PLAYLIST, audioId);
-      setCurrentlyPlaying({
-        ...audioData,
-        duration: Math.round(audioData.duration),
-        name: audioData.name.split(".mp")[0],
-        fileUrl: audioData?.fileUrl,
-      });
-    })();
-  }, [audioId]);
-
-  const handleBufferProgress: React.ReactEventHandler<HTMLAudioElement> = (e) => {
-    const audio = e.currentTarget;
-    const dur = audio.duration;
-    if (dur > 0) {
-      for (let i = 0; i < audio.buffered.length; i++) {
-        if (audio.buffered.start(audio.buffered.length - 1 - i) < audio.currentTime) {
-          const bufferedLength = audio.buffered.end(audio.buffered.length - 1 - i);
-          setBuffered(bufferedLength);
-          break;
-        }
-      }
+  const setAudioCurrentTime = () => {
+    if (audioRef.current) {
+      console.log(typeof currrentProgress, "sdsd");
+      audioRef.current.currentTime = currrentProgress;
     }
   };
 
+  useEffect(() => {
+    setAudioCurrentTime();
+  }, []);
+
+  // useEffect(() => {
+  //   // Check if audioRef.current and currrentProgress are both valid
+  //   if (audioRef.current && currrentProgress !== 0) {
+  //     audioRef.current.currentTime = currrentProgress;
+  //   }
+  // }, []);
+
   return (
-    <div className="bg-gray-200 h-full relative">
-      <div className="flex justify-between py-3 px-6 max-w-7xl mx-auto h-full">
-        {currentlyPlaying && audioId && (
+    <div className="h-full relative bg-gray-200 ">
+      <div className="flex justify-between py-3 px-6 max-w-7xl mx-auto h-full items-center">
+        {currentlyPlaying && (
           <audio
             ref={audioRef}
+            key={currentlyPlaying._id}
             onPlaying={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
-            preload="metadata"
+            // preload="metadata"
             onDurationChange={(e) => setDuration(e.currentTarget.duration)}
             onEnded={nextTrackHandler}
             onCanPlay={(e) => {
               e.currentTarget.volume = volume;
               setIsReady(true);
             }}
+            // onChange={() => {
+            //   setAudioCurrentTime();
+            // }}
             onTimeUpdate={(e) => {
               setCurrrentProgress(e.currentTarget.currentTime);
-              handleBufferProgress(e);
             }}
-            onProgress={handleBufferProgress}
             onVolumeChange={(e) => setVolume(e.currentTarget.volume)}
           >
             <source type="audio/mpeg" src={URL.createObjectURL(currentlyPlaying?.fileUrl)} />
@@ -105,7 +99,6 @@ export const AudioPlayer = ({ audioId }: { audioId: string }) => {
       <AudioProgressBar
         duration={duration}
         currentProgress={currrentProgress}
-        buffered={buffered}
         onChange={(e) => {
           if (!audioRef.current) return;
           audioRef.current.currentTime = e.currentTarget.valueAsNumber;

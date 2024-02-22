@@ -1,5 +1,6 @@
 import IndexDB_KEYS from "@constants/indexDbKeys";
 import { getIndexDBKeyAllData, getIndividualIndexDBData } from "./getIndexDBData";
+import { IPlaylistSongData } from "@components/AudioPlayer";
 
 // export const filterValueFromAudio = async (queueList) =>
 //   new Promise((resolve, reject) => {
@@ -11,23 +12,37 @@ import { getIndexDBKeyAllData, getIndividualIndexDBData } from "./getIndexDBData
 //     resolve(filterValue);
 //   });
 
-export const filterValueFromAudio = async (queueList) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const filterValue = [];
-      for (const item of queueList) {
-        const data = await getIndividualIndexDBData(IndexDB_KEYS.PLAYLIST, item);
-        const rePatternData = {
+interface IFilterValueFromAudio {
+  _id: string;
+  name: string;
+  size: number;
+  duration: number;
+}
+
+export const filterValueFromAudio = async (
+  queueList: string[],
+): Promise<IFilterValueFromAudio[]> => {
+  try {
+    const filterValue: IFilterValueFromAudio[] = [];
+
+    for (const item of queueList) {
+      try {
+        const data = await getIndividualIndexDBData<IPlaylistSongData>(IndexDB_KEYS.PLAYLIST, item);
+        const rePatternData: IFilterValueFromAudio = {
           _id: data._id,
           name: data.name.split(".mp")[0],
           size: data.size,
           duration: data.duration,
         };
         filterValue.push(rePatternData);
+      } catch (error) {
+        console.error(`Error fetching data for item ${item}:`, error);
       }
-      resolve(filterValue);
-    } catch (error) {
-      reject(error);
     }
-  });
+
+    return filterValue;
+  } catch (error) {
+    console.error("Error in filterValueFromAudio:", error);
+    throw error;
+  }
 };
