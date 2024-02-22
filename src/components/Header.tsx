@@ -28,7 +28,7 @@ export const Header = () => {
 
   return (
     <nav
-      className="mx-auto flex items-center justify-between p-6 lg:px-8 max-w-7xl h-full border-t-1 border-slate-700"
+      className="mx-auto flex items-center justify-between p-6 lg:px-8 max-w-7xl h-full border-b-2 border-slate-300"
       aria-label="Global"
     >
       <div className="-m-1.5 p-1.5 flex items-center gap-2">
