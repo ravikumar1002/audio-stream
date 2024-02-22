@@ -4,30 +4,44 @@ export interface IPlaylistSong {
   _id: string;
   name: string;
   size: number | string;
+  duration: number;
 }
 
+export type ICurrentlyPlaying = Pick<IPlaylistSong, "_id" | "name" | "size" | "duration"> & {
+  type: string;
+  fileUrl: Blob | File;
+};
+
 interface IStore {
-  audioLevel: number;
+  volume: number;
+  duration: number;
+  currrentProgress: number;
   isAudioMuted: boolean;
-  currentTrack: number;
   playingsongId: string | null;
   playlistSongs: IPlaylistSong[];
-  setAudioLevel: (audioLevel: number) => void;
+  currentlyPlaying: ICurrentlyPlaying | null;
+  setVolume: (volume: number) => void;
+  setDuration: (duration: number) => void;
   setIsAudioMuted: (isAudioMuted: boolean) => void;
-  setCurrentTrack: (currentTrack: number) => void;
   setPlayingSongId: (playingsongId: string | null) => void;
   setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => void;
+  setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying) => void;
+  setCurrrentProgress: (currrentProgress: number) => void;
 }
 
 export const useAppStore = create<IStore>()((set) => ({
-  audioLevel: 40,
+  volume: 0.8,
+  duration: 0,
   isAudioMuted: false,
-  currentTrack: 0,
+  currrentProgress: 0,
   playingsongId: null,
   playlistSongs: [],
-  setAudioLevel: (audioLevel: number) => set({ audioLevel }),
+  currentlyPlaying: null,
+  setVolume: (volume: number) => set({ volume: volume }),
   setIsAudioMuted: (isAudioMuted: boolean) => set({ isAudioMuted }),
-  setCurrentTrack: (currentTrack: number) => set({ currentTrack }),
+  setDuration: (duration: number) => set({ duration }),
   setPlayingSongId: (playingsongId: string | null) => set({ playingsongId }),
   setPlaylistSongs: (playlistSongs: IPlaylistSong[]) => set({ playlistSongs }),
+  setCurrentlyPlaying: (currentlyPlaying: ICurrentlyPlaying | null) => set({ currentlyPlaying }),
+  setCurrrentProgress: (currrentProgress: number) => set({ currrentProgress }),
 }));

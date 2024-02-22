@@ -1,15 +1,21 @@
 import "./App.css";
-import { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { getIndexDBKeyAllData } from "@utils/getIndexDBData";
 import { filterValueFromAudio } from "@utils/filterValueFromAudio";
 import { HomePage } from "@pages/HomePage";
 import IndexDB_KEYS from "@constants/indexDbKeys";
 import { PageLayout } from "@components/PageLayout";
 import { useAppStore } from "@store/store";
+import { useSaveDataBeforeReload } from "@hooks/useSaveDataBeforeReload";
 
 export const db = window.indexedDB;
 
-const insertDataInIndexedDb = async () => {
+interface IQueueIndexDBData {
+  queue: string;
+  queueList: string[];
+}
+
+const initializeIndexDB = async () => {
   if (!db) {
     console.log("This browser doesn't support IndexedDB");
     return;
@@ -22,8 +28,7 @@ const insertDataInIndexedDb = async () => {
     console.error(event);
   };
 
-  request.onupgradeneeded = function (event) {
-    console.log(event);
+  request.onupgradeneeded = function () {
     const db = request.result;
     if (!db.objectStoreNames.contains(IndexDB_KEYS.PLAYLIST)) {
       db.createObjectStore(IndexDB_KEYS.PLAYLIST, { keyPath: "_id" });
@@ -39,19 +44,45 @@ const insertDataInIndexedDb = async () => {
 };
 
 function App() {
-  const { setPlaylistSongs } = useAppStore();
+  const {
+    setVolume,
+    setIsAudioMuted,
+    setDuration,
+    setPlayingSongId,
+    setPlaylistSongs,
+    setCurrentlyPlaying,
+    setCurrrentProgress,
+  } = useAppStore();
+
+  useSaveDataBeforeReload();
+
   useLayoutEffect(() => {
     (async () => {
-      await insertDataInIndexedDb();
-      const queueList = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST_QUEUE);
-      // const playlist = await getIndexDBKeyAllData(IndexDB_KEYS.PLAYLIST);
-      console.log(queueList);
+      await initializeIndexDB();
+      const queueList = await getIndexDBKeyAllData<IQueueIndexDBData>(IndexDB_KEYS.PLAYLIST_QUEUE);
       if (queueList.length > 0) {
         const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
-        console.log(filterAudioData, "dd");
         if (filterAudioData) {
           setPlaylistSongs(filterAudioData);
         }
+      }
+      const localStorageSavedData = localStorage.getItem("appData");
+      if (localStorageSavedData) {
+        const parseLocalStrogeData = JSON.parse(localStorageSavedData);
+        const {
+          volume,
+          duration,
+          isAudioMuted,
+          currrentProgress,
+          playingsongId,
+          currentlyPlaying,
+        } = parseLocalStrogeData;
+        setVolume(volume);
+        setIsAudioMuted(isAudioMuted);
+        setDuration(duration);
+        setPlayingSongId(playingsongId);
+        setCurrentlyPlaying(currentlyPlaying);
+        setCurrrentProgress(currrentProgress);
       }
     })();
   }, []);

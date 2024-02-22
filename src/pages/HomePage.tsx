@@ -5,8 +5,7 @@ export const HomePage = () => {
   const { playlistSongs } = useAppStore();
   return (
     <div>
-      <p>Home page</p>
-      <div>
+      <div className="mt-8">
         {playlistSongs.map((audio) => {
           return <PlaylistSongCard key={audio._id} song={audio} />;
         })}

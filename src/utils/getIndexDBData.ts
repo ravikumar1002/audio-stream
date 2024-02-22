@@ -1,9 +1,9 @@
 import IndexDB_KEYS from "@constants/indexDbKeys";
 import { db } from "App";
 
-export const getIndexDBKeyAllData = (key: string) =>
+export const getIndexDBKeyAllData = <T>(key: string): Promise<T[]> =>
   new Promise((resolve, reject) => {
-    let dbValue: any;
+    let dbValue: T[];
     const dbPromise = db.open(IndexDB_KEYS.USER_DB, 2);
     dbPromise.onsuccess = () => {
       const dbResult = dbPromise.result;
@@ -13,8 +13,8 @@ export const getIndexDBKeyAllData = (key: string) =>
       const users = userData.getAll();
 
       users.onsuccess = (e) => {
-        console.log(e.target.result);
-        dbValue = [...e.target?.result];
+        // @ts-expect-error result is not showing
+        dbValue = [...e.target.result];
       };
 
       tx.oncomplete = function () {
@@ -26,18 +26,18 @@ export const getIndexDBKeyAllData = (key: string) =>
     };
   });
 
-export const getIndividualIndexDBData = (key: string, uniqueID: string) =>
+export const getIndividualIndexDBData = <T>(key: string, uniqueID: string): Promise<T> =>
   new Promise((resolve, reject) => {
-    let dbValue: any;
+    let dbValue: T;
     const dbPromise = db.open(IndexDB_KEYS.USER_DB, 2);
     dbPromise.onsuccess = () => {
       const dbResult = dbPromise.result;
-
       const tx = dbResult.transaction(key, "readonly");
       const userData = tx.objectStore(key);
       const users = userData.get(uniqueID);
 
       users.onsuccess = (e) => {
+        // @ts-expect-error result is not showing
         dbValue = e.target?.result;
       };
 
