@@ -1,24 +1,16 @@
 import IndexDB_KEYS from "@constants/indexDbKeys";
 import { getIndividualIndexDBData } from "./getIndexDBData";
 import { IPlaylistSongData } from "@components/AudioPlayer";
+import { IPlaylistSongCardDTO } from "@dto/playlistDTO";
 
-interface IFilterValueFromAudio {
-  _id: string;
-  name: string;
-  size: number | string;
-  duration: number;
-}
-
-export const filterValueFromAudio = async (
-  queueList: string[],
-): Promise<IFilterValueFromAudio[]> => {
+export const filterValueFromAudio = async (queueList: string[]): Promise<IPlaylistSongCardDTO[]> => {
   try {
-    const filterValue: IFilterValueFromAudio[] = [];
+    const filterValue: IPlaylistSongCardDTO[] = [];
 
     for (const item of queueList) {
       try {
         const data = await getIndividualIndexDBData<IPlaylistSongData>(IndexDB_KEYS.PLAYLIST, item);
-        const rePatternData: IFilterValueFromAudio = {
+        const rePatternData: IPlaylistSongCardDTO = {
           _id: data._id,
           name: data.name.split(".mp")[0],
           size: data.size,

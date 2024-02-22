@@ -7,13 +7,9 @@ import IndexDB_KEYS from "@constants/indexDbKeys";
 import { PageLayout } from "@components/PageLayout";
 import { useAppStore } from "@store/store";
 import { useSaveDataBeforeReload } from "@hooks/useSaveDataBeforeReload";
+import { IIndexDBQueueDataDTO } from "@dto/indexDbQueueDTO";
 
 export const db = window.indexedDB;
-
-interface IQueueIndexDBData {
-  queue: string;
-  queueList: string[];
-}
 
 const initializeIndexDB = async () => {
   if (!db) {
@@ -59,7 +55,9 @@ function App() {
   useLayoutEffect(() => {
     (async () => {
       await initializeIndexDB();
-      const queueList = await getIndexDBKeyAllData<IQueueIndexDBData>(IndexDB_KEYS.PLAYLIST_QUEUE);
+      const queueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
+        IndexDB_KEYS.PLAYLIST_QUEUE,
+      );
       if (queueList.length > 0) {
         const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
         if (filterAudioData) {

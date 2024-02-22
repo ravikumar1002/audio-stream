@@ -1,13 +1,10 @@
 import IndexDB_KEYS from "@constants/indexDbKeys";
+import { IIndexDBQueueDataDTO } from "@dto/indexDbQueueDTO";
 import { useAppStore } from "@store/store";
 import { filterValueFromAudio } from "@utils/filterValueFromAudio";
 import { getIndexDBKeyAllData } from "@utils/getIndexDBData";
 import { uploadAudios } from "@utils/uploadAudios";
 import { ChangeEventHandler } from "react";
-interface IQueueIndexDBData {
-  queue: string;
-  queueList: string[];
-}
 
 export const Header = () => {
   const { setPlaylistSongs } = useAppStore();
@@ -15,7 +12,9 @@ export const Header = () => {
   const handleFileUpload: ChangeEventHandler<HTMLInputElement> = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       await uploadAudios(e.target.files);
-      const queueList = await getIndexDBKeyAllData<IQueueIndexDBData>(IndexDB_KEYS.PLAYLIST_QUEUE);
+      const queueList = await getIndexDBKeyAllData<IIndexDBQueueDataDTO>(
+        IndexDB_KEYS.PLAYLIST_QUEUE,
+      );
       if (queueList.length > 0) {
         const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
         if (filterAudioData) {
