@@ -13,12 +13,12 @@ export const PageLayout = (props: IPageLayout) => {
 
   return (
     <div className="h-screen grid grid-rows-9 sm:grid-rows-10" style={{ minHeight: "500px" }}>
-      <header className="header bg-white">
+      <header className="header h-full bg-white">
         <Header />
       </header>
       <main className="row-span-8 sm:row-span-9">
-        <div className="grid h-full grid-rows-8">
-          <div className="mx-auto w-full max-w-5xl p-6 lg:px-8 row-span-7 overflow-scroll overflow-x-auto">
+        <div className="grid h-full grid-rows-7 sm:row-span-8">
+          <div className="mx-auto w-full max-w-5xl p-6 lg:px-8 row-span-6  sm:row-span-7 overflow-auto">
             {children}
           </div>
           <div className="mx-auto w-full max-w-5xl lg:px-8 relative">

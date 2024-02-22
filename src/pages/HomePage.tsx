@@ -6,9 +6,17 @@ export const HomePage = () => {
   return (
     <div>
       <div className="mt-8">
-        {playlistSongs.map((audio) => {
-          return <PlaylistSongCard key={audio._id} song={audio} />;
-        })}
+        {playlistSongs.length > 0 ? (
+          playlistSongs.map((audio) => {
+            return <PlaylistSongCard key={audio._id} song={audio} />;
+          })
+        ) : (
+          <div className="mt-8">
+            <div>
+              <h4>Empty</h4>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
