@@ -2,7 +2,7 @@ import IndexDB_KEYS from "@constants/indexDbKeys";
 import { db } from "App";
 
 // @ts-expect-error because sending different types of file to update, using one common function
-export const updateIndexDBData = (keys: string[], data, msg: string) => {
+export const updateIndexDBData = (keys: string[], data) => {
   const dbPromise = db.open(IndexDB_KEYS.USER_DB, 2);
 
   dbPromise.onsuccess = () => {
@@ -17,7 +17,6 @@ export const updateIndexDBData = (keys: string[], data, msg: string) => {
     }
 
     tx.oncomplete = function () {
-      alert(msg);
       db.close();
     };
   };

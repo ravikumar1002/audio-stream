@@ -62,25 +62,27 @@ function App() {
         const filterAudioData = await filterValueFromAudio(queueList[0].queueList);
         if (filterAudioData) {
           setPlaylistSongs(filterAudioData);
+          const localStorageSavedData = localStorage.getItem("appData");
+          if (localStorageSavedData) {
+            const parseLocalStrogeData = JSON.parse(localStorageSavedData);
+            const {
+              volume,
+              duration,
+              isAudioMuted,
+              currrentProgress,
+              playingsongId,
+              currentlyPlaying,
+            } = parseLocalStrogeData;
+            setVolume(volume);
+            setIsAudioMuted(isAudioMuted);
+            if (queueList[0].queueList.includes(playingsongId)) {
+              setDuration(duration);
+              setPlayingSongId(playingsongId);
+              setCurrentlyPlaying(currentlyPlaying);
+              setCurrrentProgress(currrentProgress);
+            }
+          }
         }
-      }
-      const localStorageSavedData = localStorage.getItem("appData");
-      if (localStorageSavedData) {
-        const parseLocalStrogeData = JSON.parse(localStorageSavedData);
-        const {
-          volume,
-          duration,
-          isAudioMuted,
-          currrentProgress,
-          playingsongId,
-          currentlyPlaying,
-        } = parseLocalStrogeData;
-        setVolume(volume);
-        setIsAudioMuted(isAudioMuted);
-        setDuration(duration);
-        setPlayingSongId(playingsongId);
-        setCurrentlyPlaying(currentlyPlaying);
-        setCurrrentProgress(currrentProgress);
       }
     })();
   }, []);

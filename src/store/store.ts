@@ -11,6 +11,8 @@ interface IStore {
   playingsongId: string | null;
   playlistSongs: IPlaylistSongCardDTO[];
   currentlyPlaying: IAudioPlayerDataDTO | null;
+  deletingStatusAlert: boolean;
+  addingStatusAlert: boolean;
   setVolume: (volume: number) => void;
   setDuration: (duration: number) => void;
   setIsAudioMuted: (isAudioMuted: boolean) => void;
@@ -19,6 +21,8 @@ interface IStore {
   setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO) => void;
   setCurrrentProgress: (currrentProgress: number) => void;
   setIsPlaying: (isPlaying: boolean) => void;
+  setDeletingStatusAlert: (deletingStatusAlert: boolean) => void;
+  setAddingStatusAlert: (addingStatusAlert: boolean) => void;
 }
 
 export const useAppStore = create<IStore>()((set) => ({
@@ -30,6 +34,8 @@ export const useAppStore = create<IStore>()((set) => ({
   playingsongId: null,
   playlistSongs: [],
   currentlyPlaying: null,
+  deletingStatusAlert: false,
+  addingStatusAlert: false,
   setVolume: (volume: number) => set({ volume: volume }),
   setIsAudioMuted: (isAudioMuted: boolean) => set({ isAudioMuted }),
   setDuration: (duration: number) => set({ duration }),
@@ -38,4 +44,6 @@ export const useAppStore = create<IStore>()((set) => ({
   setCurrentlyPlaying: (currentlyPlaying: IAudioPlayerDataDTO | null) => set({ currentlyPlaying }),
   setCurrrentProgress: (currrentProgress: number) => set({ currrentProgress }),
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
+  setDeletingStatusAlert: (deletingStatusAlert: boolean) => set({ deletingStatusAlert }),
+  setAddingStatusAlert: (addingStatusAlert: boolean) => set({ addingStatusAlert }),
 }));
