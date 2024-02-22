@@ -1,5 +1,4 @@
 import { IPlaylistSongCardDTO } from "@dto/playlistDTO";
-import { useAudioPlayer } from "@hooks/useAudioPlayer";
 import { useAppStore } from "@store/store";
 
 import "./playlist-song_card.css";
@@ -8,7 +7,6 @@ import { useDeleteAudioFRomIndexDB } from "@hooks/useDeleteAudioFromIndexDB";
 export const PlaylistSongCard = ({ song }: { song: IPlaylistSongCardDTO }) => {
   const { name, duration, _id } = song;
   const { setPlayingSongId, isPlaying, playingsongId } = useAppStore();
-  const { playPauseHandler } = useAudioPlayer();
   const { deleteAudioFromDb } = useDeleteAudioFRomIndexDB();
 
   return (
