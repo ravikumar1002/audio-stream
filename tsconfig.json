@@ -23,9 +23,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@assets/*": [
-        "assets/*"
-      ],
       "@components/*": [
         "components/*"
       ],

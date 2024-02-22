@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { PlayerController } from "./PlayerController";
 import { useAppStore } from "@store/store";
 import { useAudioPlayer } from "@hooks/useAudioPlayer";
@@ -20,20 +19,9 @@ export const AudioPlayer = () => {
 
   const { nextTrackHandler, prevTrackHandler, playPauseHandler, audioRef } = useAudioPlayer();
 
-  const setAudioCurrentTime = () => {
-    if (audioRef.current) {
-      console.log(typeof currrentProgress, "sdsd");
-      audioRef.current.currentTime = currrentProgress;
-    }
-  };
-
-  useEffect(() => {
-    setAudioCurrentTime();
-  }, [currentlyPlaying]);
-
   return (
-    <div className="h-full relative bg-gray-200 ">
-      <div className="flex flex-wrap sm:flex-nowrap  justify-between py-3 px-6 max-w-7xl mx-auto h-full items-center">
+    <div className="relative h-full bg-gray-200 ">
+      <div className="mx-auto flex h-full max-w-7xl flex-wrap items-center justify-between px-6 py-3 sm:flex-nowrap">
         {currentlyPlaying && (
           <audio
             ref={audioRef}
@@ -62,8 +50,8 @@ export const AudioPlayer = () => {
             nextTrackHandler={nextTrackHandler}
           />
         </div>
-        <div className="flex-grow text-center -order-1 w-full sm:order-none">
-          <h3 className="text-sm sm:text-base sm:px-3 font-semibold break-all">
+        <div className="-order-1 w-full flex-grow text-center sm:order-none">
+          <h3 className="break-all text-sm font-semibold sm:px-3 sm:text-base">
             {currentlyPlaying?.name}
           </h3>
         </div>

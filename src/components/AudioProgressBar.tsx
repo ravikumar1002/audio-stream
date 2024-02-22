@@ -5,15 +5,20 @@ interface IAudioProgressBar extends React.ComponentPropsWithoutRef<"input"> {
 
 export const AudioProgressBar = (props: IAudioProgressBar) => {
   const { duration, currentProgress, ...rest } = props;
+  const elapsedTime = (currentProgress / duration) * 100;
+
   return (
-    <div className="absolute h-1 -top-[4px] left-0 right-0 group">
+    <div className="group absolute -top-[4px] left-0 right-0 h-1">
       <input
         type="range"
         name="progress"
-        className={`progress-bar absolute inset-0 w-full m-0 h-full bg-transparent appearance-none cursor-pointer dark:bg-gray-700 transition-all accent-amber-600 hover:accent-amber-600 `}
+        className={`track progress-bar absolute inset-0 m-0 h-full w-full cursor-pointer appearance-none bg-transparent accent-slate-900 transition-all hover:accent-slate-900  dark:bg-gray-700 `}
         min={0}
         step={0.01}
         max={duration}
+        style={{
+          background: `linear-gradient(to right, black 0%, black ${elapsedTime}%, grey ${elapsedTime}%, grey 100%)`,
+        }}
         value={currentProgress}
         {...rest}
       />

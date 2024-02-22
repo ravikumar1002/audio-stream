@@ -23,11 +23,12 @@ export const VolumeController = (props: IVolumeController) => {
     setVolume(volumeValue);
   };
   return (
-    <div className="flex gap-3 items-center justify-self-end">
+    <div className="flex items-center gap-3 justify-self-end">
       <button
-        className="mr-2 focus:outline-none"
+        className="mr-2 rounded-full  p-2 hover:bg-gray-300 focus:outline-none "
         onClick={handleMuteUnmute}
         aria-label={volume === 0 ? "unmute" : "mute"}
+        title={volume === 0 ? "unmute" : "mute"}
       >
         {volume === 0 ? (
           <svg
@@ -60,7 +61,7 @@ export const VolumeController = (props: IVolumeController) => {
         step={0.05}
         max={1}
         value={volume}
-        className="w-[80px] m-0 h-2 rounded-full accent-gray-700  cursor-pointer"
+        className="m-0 h-2 w-[80px] cursor-pointer rounded-full  accent-gray-700"
         onChange={(e) => {
           handleVolumeChange(e.currentTarget.valueAsNumber);
         }}
